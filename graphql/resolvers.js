@@ -1,13 +1,13 @@
-import { getMovies, getUsers } from "./db";
+import { getFiles, getMovies } from "./db";
 import { movies } from "../schema/movie";
-import { tests } from "../schema/test";
-import { pipeline } from "stream";
+import { files } from "../schema/file";
 const { finished } = require("stream/promises");
 const { createWriteStream } = require("fs");
 const path = require("path");
 
 const resolvers = {
   Query: {
+    files: () => files.find({}),
     movies: () => getMovies(),
     createtests: () => tests.createCollection().then(() => console.log("tt")),
   },
@@ -20,6 +20,16 @@ const resolvers = {
       const error = await movie.save();
       if (error) console.log(error);
       return movie;
+    },
+
+    addFile: async (_, args) => {
+      console.log(args);
+      const file = new files({
+        ...args.data,
+      });
+      const error = await file.save();
+      if (error) console.log(error);
+      return file;
     },
 
     deleteMovie: async (_, args) => {
@@ -43,6 +53,12 @@ const resolvers = {
       );
       stream.pipe(out);
       await finished(out);
+
+      const newfile = new files({
+        filename,
+      });
+      const error = await newfile.save();
+      if (error) console.log(error);
 
       return true;
     },

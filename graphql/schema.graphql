@@ -5,8 +5,18 @@ type Movie {
   title: String!
 }
 
+type File {
+  filename: String!
+}
+
+input fileInput {
+  filename: String!
+}
+
 type Query {
   movies: [Movie]!
+  files: [File]!
+
   createtests: Boolean
 }
 
@@ -19,7 +29,9 @@ input movieDelete {
 }
 
 type Mutation {
+  addFile(data: fileInput): File!
+
   addMovie(data: movieInput): Movie!
   deleteMovie(data: movieDelete): Boolean!
-  uploadFile(file: Upload!): Boolean
+  uploadFile(file: Upload!): Boolean!
 }
