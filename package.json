@@ -7,11 +7,14 @@
   "author": "KSM",
   "license": "MIT",
   "dependencies": {
+    "@graphql-tools/schema": "^7.1.5",
+    "apollo-server": "^3.0.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "graphql-yoga": "^1.18.3",
     "mongoose": "^5.13.2",
+    "mongoose-auto-increment": "^5.0.1",
     "node-fetch": "^2.6.1"
   },
   "scripts": {
@@ -23,5 +26,8 @@
     "@babel/preset-env": "^7.14.7",
     "babel-node": "^0.0.1-security",
     "nodemon": "^2.0.12"
+  },
+  "resolutions": {
+    "fs-capacitor": "3.0.0"
   }
 }

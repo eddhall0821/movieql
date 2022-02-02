@@ -1,12 +1,25 @@
+scalar Upload
+
 type Movie {
   id: Int!
   title: String!
-  rating: Float!
-  summary: String!
-  language: String!
-  medium_cover_image: String!
 }
 
 type Query {
-  movies (limit: Int, rating: Float): [Movie]!
+  movies: [Movie]!
+  createtests: Boolean
+}
+
+input movieInput {
+  title: String!
+}
+
+input movieDelete {
+  id: Int!
+}
+
+type Mutation {
+  addMovie(data: movieInput): Movie!
+  deleteMovie(data: movieDelete): Boolean!
+  uploadFile(file: Upload!): Boolean
 }

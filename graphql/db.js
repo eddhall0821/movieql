@@ -1,16 +1,11 @@
 import fetch from "node-fetch";
 const API_URL = "https://yts.mx/api/v2/list_movies.json?";
+import { movies } from "../schema/movie";
+import { pipeline } from "stream";
+const { finished } = require("stream/promises");
+const { createWriteStream } = require("fs");
+const path = require("path");
 
-export const getMovies = (limit, rating) => {
-  let REQUEST_URL = API_URL;
-  if (limit > 0) {
-    REQUEST_URL += `&limit=${limit}`;
-  }
-
-  if (rating > 0) {
-    REQUEST_URL += `&minimum_rating=${rating}`;
-  }
-  return fetch(REQUEST_URL)
-    .then((res) => res.json())
-    .then((json) => json.data.movies);
+export const getMovies = () => {
+  return movies.find({});
 };
