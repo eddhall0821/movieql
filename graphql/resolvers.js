@@ -43,22 +43,22 @@ const resolvers = {
     },
 
     uploadFile: async (_, { file }) => {
-      const { createReadStream, filename } = await file;
+      for (let i = 0; i < file.length; i++) {
+        const { createReadStream, filename, mimtype } = await file[i];
+        const stream = createReadStream();
+        console.log(file);
 
-      const stream = createReadStream();
-      console.log(file);
-
-      const out = createWriteStream(
-        path.join(__dirname, "../images", filename)
-      );
-      stream.pipe(out);
-      await finished(out);
-
-      const newfile = new files({
-        filename,
-      });
-      const error = await newfile.save();
-      if (error) console.log(error);
+        const out = createWriteStream(
+          path.join(__dirname, "../images", filename)
+        );
+        stream.pipe(out);
+        await finished(out);
+        const newfile = new files({
+          filename,
+        });
+        if (error) console.log(error);
+        const error = await newfile.save();
+      }
 
       return true;
     },
