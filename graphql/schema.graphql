@@ -1,5 +1,14 @@
 scalar Upload
 
+type User {
+  id: Int!
+  userId: String!
+  nickname: String
+  passwordHash: String
+  role: String!
+  token: String
+}
+
 type Movie {
   id: Int!
   title: String!
@@ -13,13 +22,6 @@ input fileInput {
   filename: String!
 }
 
-type Query {
-  movies: [Movie]!
-  files: [File]!
-
-  createtests: Boolean
-}
-
 input movieInput {
   title: String!
 }
@@ -28,7 +30,20 @@ input movieDelete {
   id: Int!
 }
 
+type Query {
+  users: [User!]!
+  user: User!
+  movies: [Movie]!
+  files: [File]!
+
+  createtests: Boolean
+}
+
 type Mutation {
+  signUp(userId: String!, nickname: String!, password: String!): Boolean!
+  login(userId: String!, password: String!): User
+  logout: Boolean!
+
   addFile(data: fileInput): File!
 
   addMovie(data: movieInput): Movie!

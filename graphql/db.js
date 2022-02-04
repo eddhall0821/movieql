@@ -1,11 +1,6 @@
-import fetch from "node-fetch";
-const API_URL = "https://yts.mx/api/v2/list_movies.json?";
 import { movies } from "../schema/movie";
 import { files } from "../schema/file";
-import { pipeline } from "stream";
-const { finished } = require("stream/promises");
-const { createWriteStream } = require("fs");
-const path = require("path");
+import { users } from "../schema/user";
 
 export const getMovies = () => {
   return movies.find({});
@@ -13,4 +8,10 @@ export const getMovies = () => {
 
 export const getFiles = () => {
   return files.find({});
+};
+
+export const idDuplicationCheck = async (userId) => {
+  const aggregate = await users.aggregate([{ $match: { userId } }]);
+  if (aggregate.length === 0) return false;
+  return true;
 };
