@@ -1,14 +1,8 @@
 import { users } from "../schema/user";
 
-const context = ({ req }) => {
-  console.log(req);
-  // const token = req.headers.authorization || "";
-  // no login token
-  // if (token.length != 64) return { user: null };
-  // const user = users.find((user) => user.token === token);
-  // console.log(token);
-  return true;
-  // return { user };
+export const getUser = async (ctx) => {
+  const token = ctx.request.get("Authorization") || "";
+  if (token.length != 64) return { user: null };
+  const user = await users.find({ token });
+  return user[0];
 };
-
-export default context;

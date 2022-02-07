@@ -5,8 +5,12 @@ autoIncrement.initialize(mongoose.connection);
 const Schema = mongoose.Schema;
 const fileSchema = new Schema(
   {
-    // id: { type: Number, default: 0 },
+    id: Number,
     filename: String,
+    worked: { type: Boolean, default: false },
+    checked: { type: Boolean, default: false },
+    worker: { type: String, default: "" },
+    checker: { type: String, default: "" },
   },
   { collation: "License", versionKey: false }
 );

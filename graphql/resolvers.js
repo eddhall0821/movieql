@@ -7,6 +7,11 @@ import { AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
 import sha256 from "crypto-js/sha256";
 import rand from "csprng";
+import { and, not, or, shield } from "graphql-shield";
+import { isAdmin, isAuthenticated, isChecker, isWorker } from "./permissions";
+import seedrandom from "seedrandom";
+import { mkdir } from "fs";
+import { projects } from "../schema/project";
 
 const { finished } = require("stream/promises");
 const { createWriteStream } = require("fs");
@@ -26,15 +31,18 @@ const resolvers = {
 
       return user;
     },
-    files: () => files.find({}),
+
+    projects: () => projects.find({}),
+    files: async () => files.find({}),
     movies: () => getMovies(),
     createtests: () => tests.createCollection().then(() => console.log("tt")),
   },
   Mutation: {
     signUp: async (_, { userId, nickname, password }) => {
       const user = await users.find({ userId });
-      if (user.length === 0) return false;
+      const userCount = await users.countDocuments({});
 
+      if (user.length !== 0) return false;
       const salt = await bcrypt.genSalt();
       bcrypt.hash(password, salt, async function (err, passwordHash) {
         const newUser = new users({
@@ -42,7 +50,7 @@ const resolvers = {
           nickname,
           userId,
           passwordHash,
-          role: "user",
+          role: "worker",
           token: "",
         });
 
@@ -66,13 +74,33 @@ const resolvers = {
       return user;
     },
 
-    logout: (_, __, { user }) => {
-      if (user && user.token) {
-        user.token = "";
+    logout: async (_, __, { user }) => {
+      const me = await user;
+
+      if (me && me.token) {
+        me.token = "";
+        await me.save();
         return true;
       }
 
       throw new AuthenticationError("No Authenticated");
+    },
+
+    addProject: async (
+      _,
+      __,
+      { project_name, project_content, start_date, end_date }
+    ) => {
+      const project = new projects({
+        project_name,
+        project_content,
+        start_date,
+        end_date,
+      });
+      const error = await project.save();
+      if (error) console.log(error);
+
+      return project;
     },
 
     addMovie: async (_, args) => {
@@ -106,17 +134,24 @@ const resolvers = {
     },
 
     uploadFile: async (_, { file }) => {
+      const project_name = "project name";
+      const id = seedrandom(project_name).int32();
+      console.log(id);
+      mkdir(`images/${id}`, { recursive: true }, (err) => {
+        if (err) throw err;
+      });
+
       for (let i = 0; i < file.length; i++) {
         const { createReadStream, filename, mimtype } = await file[i];
         const stream = createReadStream();
-        console.log(file);
 
         const out = createWriteStream(
-          path.join(__dirname, "../images", filename)
+          path.join(__dirname, "../images", id.toString(), filename)
         );
         stream.pipe(out);
         await finished(out);
         const newfile = new files({
+          id,
           filename,
         });
         if (error) console.log(error);
@@ -127,5 +162,15 @@ const resolvers = {
     },
   },
 };
+
+export const permissions = shield({
+  Query: {
+    files: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
+  },
+  Mutation: {
+    logout: isAuthenticated,
+    uploadFile: and(isAuthenticated, isAdmin),
+  },
+});
 
 export default resolvers;
