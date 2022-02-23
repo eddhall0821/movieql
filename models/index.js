@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MONGO_URL = `mongodb://localhost:27017/test`;
+const MONGO_URL = `mongodb+srv://admin:admin@cluster0.oxqrg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 // Connect to mongoDB
 module.exports = () => {
   mongoose
