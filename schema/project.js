@@ -9,7 +9,8 @@ const projectSchema = new Schema({
   project_content: String,
   start_date: String,
   end_date: String,
-  progress: { type: Number, default: 0 },
+  project_type: String,
+  amount: Number,
 });
 
 export const projects = mongoose.model("project", projectSchema);

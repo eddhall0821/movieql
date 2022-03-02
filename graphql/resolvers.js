@@ -36,6 +36,7 @@ const resolvers = {
     files: async () => files.find({}),
     movies: () => getMovies(),
     createtests: () => tests.createCollection().then(() => console.log("tt")),
+    worker_files: () => files.find({ ai_worked: true }),
   },
   Mutation: {
     signUp: async (_, { userId, nickname, password }) => {
@@ -86,31 +87,17 @@ const resolvers = {
       throw new AuthenticationError("No Authenticated");
     },
 
-    addProject: async (
-      _,
-      __,
-      { project_name, project_content, start_date, end_date }
-    ) => {
+    addProject: async (_, { data }) => {
+      const id = seedrandom(data.project_name).int32();
       const project = new projects({
-        project_name,
-        project_content,
-        start_date,
-        end_date,
+        id,
+        ...data,
       });
       const error = await project.save();
       if (error) console.log(error);
 
-      return project;
-    },
-
-    addMovie: async (_, args) => {
-      console.log(args);
-      const movie = new movies({
-        ...args.data,
-      });
-      const error = await movie.save();
-      if (error) console.log(error);
-      return movie;
+      // return project;
+      return true;
     },
 
     addFile: async (_, args) => {

@@ -7,8 +7,13 @@ const fileSchema = new Schema(
   {
     id: Number,
     filename: String,
+    ai_worked: { type: Boolean, default: false },
     worked: { type: Boolean, default: false },
     checked: { type: Boolean, default: false },
+
+    work_assigned: { type: Boolean, default: false },
+    check_assigned: { type: Boolean, default: false },
+
     worker: { type: String, default: "" },
     checker: { type: String, default: "" },
   },

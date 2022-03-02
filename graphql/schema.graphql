@@ -17,8 +17,13 @@ type Movie {
 type File {
   id: Int!
   filename: String!
+  ai_worked: Boolean!
   worked: Boolean!
   checked: Boolean!
+
+  work_assigned: Boolean!
+  check_assigned: Boolean!
+
   worker: String!
   checker: String!
 }
@@ -29,7 +34,8 @@ type Project {
   project_content: String!
   start_date: String!
   end_date: String!
-  progress: Int!
+  project_type: String!,
+  amount: Int!,
 }
 
 input fileInput {
@@ -41,6 +47,8 @@ input projectInput {
   project_content: String!
   start_date: String!
   end_date: String!
+  project_type: String!
+  amount: Int!
 }
 
 input movieInput {
@@ -57,6 +65,7 @@ type Query {
   movies: [Movie]!
   files: [File]!
   projects: [Project!]!
+  worker_files: [File]!
 
   createtests: Boolean
 }
@@ -68,13 +77,7 @@ type Mutation {
 
   addFile(data: fileInput): File!
 
-  addProject(
-    project_name: String!
-    project_content: String!
-    start_date: String!
-    end_date: String!
-  ): Project!
-
+  addProject(data: projectInput): Boolean!
   addMovie(data: movieInput): Movie!
   deleteMovie(data: movieDelete): Boolean!
   uploadFile(file: Upload!): Boolean!
