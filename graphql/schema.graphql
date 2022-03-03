@@ -14,6 +14,17 @@ type Movie {
   title: String!
 }
 
+type LabeledData {
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+  rotate: Int!
+  scaleX: Int!
+  scaleY: Int!
+  text: String!
+}
+
 type File {
   id: Int!
   filename: String!
@@ -26,6 +37,8 @@ type File {
 
   worker: String!
   checker: String!
+
+  ai_data: [LabeledData]!
 }
 
 type Project {
@@ -65,7 +78,7 @@ type Query {
   movies: [Movie]!
   files: [File]!
   projects: [Project!]!
-  worker_files: [File]!
+  projectValidation(id: Int!, project_type: String!): Boolean
 
   createtests: Boolean
 }
@@ -76,9 +89,10 @@ type Mutation {
   logout: Boolean!
 
   addFile(data: fileInput): File!
+  workerFile(userId: String!): File!
 
   addProject(data: projectInput): Boolean!
   addMovie(data: movieInput): Movie!
   deleteMovie(data: movieDelete): Boolean!
-  uploadFile(file: Upload!): Boolean!
+  uploadFile(file: Upload!, id: Int!): Boolean!
 }

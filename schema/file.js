@@ -16,6 +16,19 @@ const fileSchema = new Schema(
 
     worker: { type: String, default: "" },
     checker: { type: String, default: "" },
+
+    ai_data: [
+      {
+        x: Number,
+        y: Number,
+        width: Number,
+        height: Number,
+        rotate: Number,
+        scaleX: Number,
+        scaleY: Number,
+        text: String
+      },
+    ],
   },
   { collation: "License", versionKey: false }
 );

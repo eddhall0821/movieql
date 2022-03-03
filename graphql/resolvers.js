@@ -31,12 +31,26 @@ const resolvers = {
 
       return user;
     },
+    projectValidation: async (_, { id, project_type }) => {
+      const document_count = await projects.countDocuments({
+        id,
+        project_type,
+      });
+      if (document_count === 0) {
+        return false;
+      }
+      return true;
+    },
 
     projects: () => projects.find({}),
     files: async () => files.find({}),
     movies: () => getMovies(),
     createtests: () => tests.createCollection().then(() => console.log("tt")),
-    worker_files: () => files.find({ ai_worked: true }),
+    // worker_files: () =>
+    //   files.findOneAndUpdate(
+    //     { ai_worked: true, work_assigned: false },
+    //     { work_assigned: true }
+    //   ),
   },
   Mutation: {
     signUp: async (_, { userId, nickname, password }) => {
@@ -86,7 +100,6 @@ const resolvers = {
 
       throw new AuthenticationError("No Authenticated");
     },
-
     addProject: async (_, { data }) => {
       const id = seedrandom(data.project_name).int32();
       const project = new projects({
@@ -101,13 +114,35 @@ const resolvers = {
     },
 
     addFile: async (_, args) => {
-      console.log(args);
       const file = new files({
         ...args.data,
       });
       const error = await file.save();
       if (error) console.log(error);
       return file;
+    },
+
+    workerFile: async (_, { userId }) => {
+      const work_in_progress = await files.countDocuments({
+        ai_worked: true,
+        worked: false,
+        work_assigned: true,
+        worker: userId,
+      });
+
+      if (work_in_progress > 0) {
+        return files.findOne({
+          ai_worked: true,
+          worked: false,
+          work_assigned: true,
+          worker: userId,
+        });
+      } else {
+        return files.findOneAndUpdate(
+          { ai_worked: true, work_assigned: false },
+          { work_assigned: true, worker: userId }
+        );
+      }
     },
 
     deleteMovie: async (_, args) => {
@@ -120,10 +155,7 @@ const resolvers = {
       }
     },
 
-    uploadFile: async (_, { file }) => {
-      const project_name = "project name";
-      const id = seedrandom(project_name).int32();
-      console.log(id);
+    uploadFile: async (_, { file, id }) => {
       mkdir(`images/${id}`, { recursive: true }, (err) => {
         if (err) throw err;
       });
