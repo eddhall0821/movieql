@@ -5,6 +5,7 @@ autoIncrement.initialize(mongoose.connection);
 const Schema = mongoose.Schema;
 const fileSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     id: Number,
     filename: String,
     ai_worked: { type: Boolean, default: false },
@@ -26,7 +27,19 @@ const fileSchema = new Schema(
         rotate: Number,
         scaleX: Number,
         scaleY: Number,
-        text: String
+        text: String,
+      },
+    ],
+    worker_data: [
+      {
+        x: Number,
+        y: Number,
+        width: Number,
+        height: Number,
+        rotate: Number,
+        scaleX: Number,
+        scaleY: Number,
+        text: String,
       },
     ],
   },

@@ -25,7 +25,9 @@ type LabeledData {
   text: String!
 }
 
+
 type File {
+  _id: String!
   id: Int!
   filename: String!
   ai_worked: Boolean!
@@ -72,6 +74,17 @@ input movieDelete {
   id: Int!
 }
 
+input labeledDataInput {
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+  rotate: Int!
+  scaleX: Int!
+  scaleY: Int!
+  text: String!
+}
+
 type Query {
   users: [User!]!
   user: User!
@@ -81,6 +94,9 @@ type Query {
   projectValidation(id: Int!, project_type: String!): Boolean
 
   createtests: Boolean
+
+  workerFile(userId: String!): File!
+  getDocumentById(_id: String!): File
 }
 
 type Mutation {
@@ -89,10 +105,10 @@ type Mutation {
   logout: Boolean!
 
   addFile(data: fileInput): File!
-  workerFile(userId: String!): File!
 
   addProject(data: projectInput): Boolean!
   addMovie(data: movieInput): Movie!
   deleteMovie(data: movieDelete): Boolean!
   uploadFile(file: Upload!, id: Int!): Boolean!
+  labelSubmit(_id: String!, id: Int!, data: [labeledDataInput]): Boolean!
 }

@@ -46,6 +46,35 @@ const resolvers = {
     files: async () => files.find({}),
     movies: () => getMovies(),
     createtests: () => tests.createCollection().then(() => console.log("tt")),
+    workerFile: async (_, { userId }) => {
+      const work_in_progress = await files.countDocuments({
+        ai_worked: true,
+        worked: false,
+        work_assigned: true,
+        worker: userId,
+      });
+
+      if (work_in_progress > 0) {
+        return files.findOne({
+          ai_worked: true,
+          worked: false,
+          work_assigned: true,
+          worker: userId,
+        });
+      } else {
+        return files.findOneAndUpdate(
+          { ai_worked: true, work_assigned: false },
+          { work_assigned: true, worker: userId }
+        );
+      }
+    },
+
+    getDocumentById: (_, { _id }) => {
+      return files.findOne({
+        _id,
+      });
+    },
+
     // worker_files: () =>
     //   files.findOneAndUpdate(
     //     { ai_worked: true, work_assigned: false },
@@ -65,7 +94,7 @@ const resolvers = {
           nickname,
           userId,
           passwordHash,
-          role: "worker",
+          role: "admin",
           token: "",
         });
 
@@ -122,29 +151,6 @@ const resolvers = {
       return file;
     },
 
-    workerFile: async (_, { userId }) => {
-      const work_in_progress = await files.countDocuments({
-        ai_worked: true,
-        worked: false,
-        work_assigned: true,
-        worker: userId,
-      });
-
-      if (work_in_progress > 0) {
-        return files.findOne({
-          ai_worked: true,
-          worked: false,
-          work_assigned: true,
-          worker: userId,
-        });
-      } else {
-        return files.findOneAndUpdate(
-          { ai_worked: true, work_assigned: false },
-          { work_assigned: true, worker: userId }
-        );
-      }
-    },
-
     deleteMovie: async (_, args) => {
       const msg = await movies.deleteOne({ id: args.data.id });
       console.log(msg);
@@ -178,6 +184,17 @@ const resolvers = {
       }
 
       return true;
+    },
+    labelSubmit: async (_, { _id, id, data }) => {
+      const file = await files.findOneAndUpdate(
+        { _id, id },
+        { worked: true, worker_data: data }
+      );
+      if (file) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
