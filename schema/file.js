@@ -5,7 +5,7 @@ autoIncrement.initialize(mongoose.connection);
 const Schema = mongoose.Schema;
 const fileSchema = new Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     id: Number,
     filename: String,
     ai_worked: { type: Boolean, default: false },
@@ -18,39 +18,38 @@ const fileSchema = new Schema(
     worker: { type: String, default: "" },
     checker: { type: String, default: "" },
 
-    ai_data: [
-      {
-        x: Number,
-        y: Number,
-        width: Number,
-        height: Number,
-        rotate: Number,
-        scaleX: Number,
-        scaleY: Number,
-        text: String,
-      },
-    ],
-    worker_data: [
-      {
-        x: Number,
-        y: Number,
-        width: Number,
-        height: Number,
-        rotate: Number,
-        scaleX: Number,
-        scaleY: Number,
-        text: String,
-      },
-    ],
+    ai_data: {
+      type: [
+        {
+          x: Number,
+          y: Number,
+          width: Number,
+          height: Number,
+          rotate: Number,
+          scaleX: Number,
+          scaleY: Number,
+          text: String,
+        },
+      ],
+      default: [],
+    },
+    worker_data: {
+      type: [
+        {
+          x: Number,
+          y: Number,
+          width: Number,
+          height: Number,
+          rotate: Number,
+          scaleX: Number,
+          scaleY: Number,
+          text: String,
+        },
+      ],
+      default: [],
+    },
   },
   { collation: "License", versionKey: false }
 );
-
-// fileSchema.plugin(autoIncrement.plugin, {
-//   model: "hws",
-//   field: "id",
-//   startAt: 1,
-//   increment: 1,
-// });
 
 export const files = mongoose.model("file", fileSchema);

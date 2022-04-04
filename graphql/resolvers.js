@@ -185,6 +185,7 @@ const resolvers = {
 
       return true;
     },
+
     labelSubmit: async (_, { _id, id, data }) => {
       const file = await files.findOneAndUpdate(
         { _id, id },
@@ -205,7 +206,7 @@ export const permissions = shield({
   },
   Mutation: {
     logout: isAuthenticated,
-    uploadFile: and(isAuthenticated, isAdmin),
+    // uploadFile: and(isAuthenticated),
   },
 });
 
