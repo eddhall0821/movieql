@@ -8,6 +8,8 @@ import { and, not, shield } from "graphql-shield";
 const dbConnect = require("./models");
 const express = require("express");
 const path = require("path");
+const cors = require('cors');
+
 dbConnect();
 
 const server = new GraphQLServer({
@@ -20,5 +22,7 @@ const server = new GraphQLServer({
   }),
 });
 
+server.express.use(cors());
 server.express.use("/images", express.static("images"));
+
 server.start(() => console.log("Graphql Server Runing"));

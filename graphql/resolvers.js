@@ -203,9 +203,11 @@ const resolvers = {
 export const permissions = shield({
   Query: {
     files: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
+    workerFile: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
   },
   Mutation: {
     logout: isAuthenticated,
+    labelSubmit: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
     // uploadFile: and(isAuthenticated),
   },
 });
