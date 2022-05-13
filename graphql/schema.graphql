@@ -30,6 +30,10 @@ type File {
   _id: String!
   id: Int!
   filename: String!
+  
+  original_width: Int!
+  original_height: Int!
+
   ai_worked: Boolean!
   worked: Boolean!
   checked: Boolean!
@@ -41,6 +45,7 @@ type File {
   checker: String!
 
   ai_data: [LabeledData]!
+  worker_data: [LabeledData]!
 }
 
 type Project {
@@ -90,6 +95,7 @@ type Query {
   user: User!
   movies: [Movie]!
   files: [File]!
+  project(id: Int!): [File]!
   projects: [Project!]!
   projectValidation(id: Int!, project_type: String!): Boolean
 

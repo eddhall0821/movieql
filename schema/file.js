@@ -12,6 +12,9 @@ const fileSchema = new Schema(
     worked: { type: Boolean, default: false },
     checked: { type: Boolean, default: false },
 
+    original_width: { type: Number, default: 0 },
+    original_height: { type: Number, default: 0 },
+
     work_assigned: { type: Boolean, default: false },
     check_assigned: { type: Boolean, default: false },
 

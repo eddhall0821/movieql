@@ -12,6 +12,7 @@ import { isAdmin, isAuthenticated, isChecker, isWorker } from "./permissions";
 import seedrandom from "seedrandom";
 import { mkdir } from "fs";
 import { projects } from "../schema/project";
+var createImageSizeStream = require("image-size-stream");
 
 const { finished } = require("stream/promises");
 const { createWriteStream } = require("fs");
@@ -40,6 +41,10 @@ const resolvers = {
         return false;
       }
       return true;
+    },
+
+    project: async (_, { id }) => {
+      return await files.find({ id });
     },
 
     projects: () => projects.find({}),
@@ -170,6 +175,15 @@ const resolvers = {
         const { createReadStream, filename, mimtype } = await file[i];
         const stream = createReadStream();
 
+        console.log("START SIZE");
+        const size = createImageSizeStream();
+        size.on("size", function (dimensions) {
+          //이거 삽입하는거 추가해야함
+          console.log(dimensions);
+        });
+
+        stream.pipe(size);
+
         const out = createWriteStream(
           path.join(__dirname, "../images", id.toString(), filename)
         );
@@ -206,9 +220,9 @@ export const permissions = shield({
     workerFile: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
   },
   Mutation: {
-    logout: isAuthenticated,
+    // logout: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
     labelSubmit: and(isAuthenticated, or(isWorker, isChecker, isAdmin)),
-    // uploadFile: and(isAuthenticated),
+    uploadFile: and(isAuthenticated),
   },
 });
 

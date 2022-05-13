@@ -3596,6 +3596,19 @@ ignore-by-default@^1.0.1:
   resolved "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz"
   integrity sha1-SMptcvbGo68Aqa1K5odr44ieKwk=
 
+image-size-stream@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/image-size-stream/-/image-size-stream-1.1.0.tgz#22fa2eda66c6df50108746da7149264b2d25f86b"
+  integrity sha1-Ivou2mbG31AQh0bacUkmSy0l+Gs=
+  dependencies:
+    image-size netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1
+    readable-stream "^1.0.33"
+    tryit "^1.0.1"
+
+"image-size@git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1":
+  version "0.3.5"
+  resolved "git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1"
+
 import-lazy@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/import-lazy/-/import-lazy-2.1.0.tgz"
@@ -4787,7 +4800,7 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-readable-stream@1.1.x:
+readable-stream@1.1.x, readable-stream@^1.0.33:
   version "1.1.14"
   resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz"
   integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
@@ -5511,6 +5524,11 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/trim-right/-/trim-right-1.0.1.tgz"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+
+tryit@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
+  integrity sha1-OTvnMKlEb9Hq1tpZoBQwjzbCics=
 
 ts-invariant@^0.4.0:
   version "0.4.4"
