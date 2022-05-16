@@ -174,24 +174,23 @@ const resolvers = {
       for (let i = 0; i < file.length; i++) {
         const { createReadStream, filename, mimtype } = await file[i];
         const stream = createReadStream();
-
-        console.log("START SIZE");
         const size = createImageSizeStream();
-        size.on("size", function (dimensions) {
-          //이거 삽입하는거 추가해야함
-          console.log(dimensions);
+        let dimensions;
+        size.on("size", function (d) {
+          dimensions = d;
         });
-
         stream.pipe(size);
-
         const out = createWriteStream(
           path.join(__dirname, "../images", id.toString(), filename)
         );
+
         stream.pipe(out);
         await finished(out);
         const newfile = new files({
           id,
           filename,
+          original_width: dimensions.width,
+          original_height: dimensions.height,
         });
         if (error) console.log(error);
         const error = await newfile.save();
