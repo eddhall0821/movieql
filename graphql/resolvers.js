@@ -10,13 +10,15 @@ import rand from "csprng";
 import { and, not, or, shield } from "graphql-shield";
 import { isAdmin, isAuthenticated, isChecker, isWorker } from "./permissions";
 import seedrandom from "seedrandom";
-import { fstat, mkdir, unlinkSync } from "fs";
+import { existsSync, mkdir, unlinkSync } from "fs";
 import { projects } from "../schema/project";
 var createImageSizeStream = require("image-size-stream");
 
 const { finished } = require("stream/promises");
 const { createWriteStream } = require("fs");
 const path = require("path");
+
+export const SERVER = "http://localhost:4000";
 
 const resolvers = {
   Query: {
@@ -155,9 +157,18 @@ const resolvers = {
       if (error) console.log(error);
       return file;
     },
-    deleteFile: async (_, args) => {
-      const filePath = "";
-      unlinkSync(filePath)
+    deleteFile: async (_, { _id, id, filename }) => {
+      console.log(_id, id, filename);
+      const filePath = `images/${id}/${filename}`;
+
+      if (existsSync(filePath)) {
+        unlinkSync(filePath);
+      }
+
+      const file = await files.findOneAndDelete({
+        _id,
+      });
+      return true;
     },
     deleteMovie: async (_, args) => {
       const msg = await movies.deleteOne({ id: args.data.id });

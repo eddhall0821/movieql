@@ -111,7 +111,7 @@ type Mutation {
   logout: Boolean!
 
   addFile(data: fileInput): File!
-  deleteFile(id: Int!, fliename: String!): Boolean!
+  deleteFile(_id: String!, id: Int!, filename: String!): Boolean!
 
   addProject(data: projectInput): Boolean!
   addMovie(data: movieInput): Movie!
