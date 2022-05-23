@@ -3605,9 +3605,9 @@ image-size-stream@^1.1.0:
     readable-stream "^1.0.33"
     tryit "^1.0.1"
 
-"image-size@git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1":
+image-size@netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1:
   version "0.3.5"
-  resolved "git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1"
+  resolved "https://codeload.github.com/netroy/image-size/tar.gz/da2c863807a3e9602617bdd357b0de3ab4a064c1"
 
 import-lazy@^2.1.0:
   version "2.1.0"

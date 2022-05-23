@@ -1,30 +1,23 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\soomin\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add seedRandom
+  /usr/bin/node /usr/local/bin/yarn
 
 PATH: 
-  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\libnvvp;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\adb\platform-tools;C:\ProgramData\chocolatey\bin;C:\Program Files\OpenJDK\openjdk-8u282-b08\bin;E:\JavaTool\gradle-7.2\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.5.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\soomin\AppData\Local\Microsoft\WindowsApps;C:\Users\soomin\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\4.4\bin;C:\Users\soomin\AppData\Local\Android\Sdk\tools;C:\Users\soomin\AppData\Local\gitkraken\bin;C:\Users\soomin\AppData\Local\afreeca;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\lib;C:\Users\soomin\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;
+  /home/airsound/.vscode-server/bin/f80445acd5a3dadef24aa209168452a3d97cc326/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
-  1.16.0
+  1.22.17
 
 Node version: 
-  16.13.1
+  10.19.0
 
 Platform: 
-  win32 x64
+  linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/seedRandom: Not found
-      at Request.params.callback [as _callback] (C:\Users\soomin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66091:18)
-      at Request.self.callback (C:\Users\soomin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:129590:22)
-      at Request.emit (node:events:390:28)
-      at Request.<anonymous> (C:\Users\soomin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:130562:10)
-      at Request.emit (node:events:390:28)
-      at IncomingMessage.<anonymous> (C:\Users\soomin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:130484:12)
-      at Object.onceWrapper (node:events:509:28)
-      at IncomingMessage.emit (node:events:402:35)
-      at endReadableNT (node:internal/streams/readable:1343:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+  Error: unable to get local issuer certificate
+      at TLSSocket.onConnectSecure (_tls_wrap.js:1058:34)
+      at TLSSocket.emit (events.js:198:13)
+      at TLSSocket._finishInit (_tls_wrap.js:636:8)
 
 npm manifest: 
   {
@@ -47,9 +40,11 @@ npm manifest:
       "csprng": "^0.1.2",
       "graphql-shield": "^7.5.0",
       "graphql-yoga": "^1.18.3",
+      "image-size-stream": "^1.1.0",
       "mongoose": "^5.13.2",
       "mongoose-auto-increment": "^5.0.1",
-      "node-fetch": "^2.6.1"
+      "node-fetch": "^2.6.1",
+      "seedrandom": "^3.0.5"
     },
     "scripts": {
       "start": "nodemon --exec babel-node index.js"
@@ -3668,6 +3663,19 @@ Lockfile:
     resolved "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz"
     integrity sha1-SMptcvbGo68Aqa1K5odr44ieKwk=
   
+  image-size-stream@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/image-size-stream/-/image-size-stream-1.1.0.tgz#22fa2eda66c6df50108746da7149264b2d25f86b"
+    integrity sha1-Ivou2mbG31AQh0bacUkmSy0l+Gs=
+    dependencies:
+      image-size netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1
+      readable-stream "^1.0.33"
+      tryit "^1.0.1"
+  
+  "image-size@git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1":
+    version "0.3.5"
+    resolved "git+https://github.com/netroy/image-size#da2c863807a3e9602617bdd357b0de3ab4a064c1"
+  
   import-lazy@^2.1.0:
     version "2.1.0"
     resolved "https://registry.npmjs.org/import-lazy/-/import-lazy-2.1.0.tgz"
@@ -4859,7 +4867,7 @@ Lockfile:
       minimist "^1.2.0"
       strip-json-comments "~2.0.1"
   
-  readable-stream@1.1.x:
+  readable-stream@1.1.x, readable-stream@^1.0.33:
     version "1.1.14"
     resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz"
     integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
@@ -5121,6 +5129,11 @@ Lockfile:
     integrity sha512-/MY/PEMbk2SuY5sScONwhUDsV2p77Znkb/q3nSVstq/yQzYJOH/Azh29p9oJLsl3LnQwSvZDKagDGBsBwSooag==
     dependencies:
       sparse-bitfield "^3.0.3"
+  
+  seedrandom@^3.0.5:
+    version "3.0.5"
+    resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-3.0.5.tgz#54edc85c95222525b0c7a6f6b3543d8e0b3aa0a7"
+    integrity sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==
   
   semver-diff@^3.1.1:
     version "3.1.1"
@@ -5578,6 +5591,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.npmjs.org/trim-right/-/trim-right-1.0.1.tgz"
     integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+  
+  tryit@^1.0.1:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
+    integrity sha1-OTvnMKlEb9Hq1tpZoBQwjzbCics=
   
   ts-invariant@^0.4.0:
     version "0.4.4"

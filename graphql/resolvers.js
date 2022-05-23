@@ -10,7 +10,7 @@ import rand from "csprng";
 import { and, not, or, shield } from "graphql-shield";
 import { isAdmin, isAuthenticated, isChecker, isWorker } from "./permissions";
 import seedrandom from "seedrandom";
-import { mkdir } from "fs";
+import { fstat, mkdir, unlinkSync } from "fs";
 import { projects } from "../schema/project";
 var createImageSizeStream = require("image-size-stream");
 
@@ -155,7 +155,10 @@ const resolvers = {
       if (error) console.log(error);
       return file;
     },
-
+    deleteFile: async (_, args) => {
+      const filePath = "";
+      unlinkSync(filePath)
+    },
     deleteMovie: async (_, args) => {
       const msg = await movies.deleteOne({ id: args.data.id });
       console.log(msg);
