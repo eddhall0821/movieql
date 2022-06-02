@@ -116,6 +116,8 @@ type Mutation {
   addProject(data: projectInput): Boolean!
   addMovie(data: movieInput): Movie!
   deleteMovie(data: movieDelete): Boolean!
+
+  tesseract: Boolean!
   uploadFile(file: Upload!, id: Int!): Boolean!
   labelSubmit(_id: String!, id: Int!, data: [labeledDataInput]): Boolean!
 }

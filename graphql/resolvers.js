@@ -2,7 +2,7 @@ import { getMovies, idDuplicationCheck } from "./db";
 import { movies } from "../schema/movie";
 import { files } from "../schema/file";
 import { users } from "../schema/user";
-
+const tesseract = require("node-tesseract-ocr");
 import { AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
 import sha256 from "crypto-js/sha256";
@@ -178,6 +178,25 @@ const resolvers = {
       } else {
         return false;
       }
+    },
+    tesseract: async (_, args) => {
+      const config = {
+        lang: "kor+eng",
+        oem: 1,
+        psm: 3,
+      }      
+      tesseract
+        .recognize(
+          "http://www.musicscore.co.kr/sample/samp7ys7f3ij9wkjid8eujfhsiud843dsijfowejfisojf3490fi0if0sjk09jkr039uf90u/8u4ojsjdjf430foeid409ijef923jerojfgojdofj894jjdsf934f90f40ufj390rfjds/sample_63000/sample_3zICj22vAF2018111620349.jpg",
+          config
+        )
+        .then((text) => {
+          console.log("Result:", text);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      return true;
     },
 
     uploadFile: async (_, { file, id }) => {
